@@ -3,6 +3,7 @@ package org.example;
 import com.github.javafaker.Faker;
 import com.google.common.util.concurrent.FakeTimeLimiter;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -27,7 +28,7 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         //Podesavanje browsera i drivera i instanciranje dependencija.
         Faker faker = new Faker();
-        System.setProperty("webdriver.chrome.driver", "E:chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "F:chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         driver.get("https://automationexercise.com");
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -92,6 +93,9 @@ public class Main {
         //Selektovanje polja za unos adrese i unos adrese
         WebElement state = driver.findElement(By.id("state"));
         state.sendKeys("Alberta");
+        //Selektovanje polja za unos grada i unos grada
+        WebElement city = driver.findElement(By.id("city"));
+        city.sendKeys("Cold Lake");
         //Selektovanje polja za unos koda za postu i unos  koda za postu
         WebElement zipcode = driver.findElement(By.id("zipcode"));
         zipcode.sendKeys("T0A - T9X");
@@ -101,6 +105,41 @@ public class Main {
         //Selektovanje dugmeta "Create Account" i klik na njega putem submit stanja
         WebElement submitButton = driver.findElement(By.xpath("//*[@id=\"form\"]/div/div/div/div[1]/form/button"));
         submitButton.submit();
+        //Selektovanje dugmeta "Continue" i klik na njega putem klika
+        WebElement continueButton = driver.findElement(By.xpath("//*[@id=\"form\"]/div/div/div/div/a"));
+        continueButton.click();
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("location.reload()");
+        //Selektovanje linka za brisanje naloga
+        WebElement deleteAccount = driver.findElement(By.xpath("//*[@id=\"header\"]/div/div/div/div[2]/div/ul/li[5]/a"));
+        System.out.println(deleteAccount.getText());
+
+        do {
+            try {
+                final WebElement deleteAccount1 = driver.findElement(By.xpath("//*[@id=\"header\"]/div/div/div/div[2]/div/ul/li[5]/a"));
+                System.out.println(deleteAccount1.getText());
+                if (deleteAccount1.getText().equals("Delete Account")){
+                    deleteAccount1.click();
+                    break;
+                }
+
+            }catch (Exception e){
+                System.out.println("Exception prvi okinuo");
+            }
+            js.executeScript("location.reload()");
+            Thread.sleep(250);
+            try {
+                WebElement continueButton1 = driver.findElement(By.xpath("//*[@id=\"form\"]/div/div/div/div/a"));
+
+                continueButton1.click();
+            }catch (Exception e){
+                System.out.println("Okinuo expection drugi");
+            }
+        }while (true);
+        js.executeScript("location.reload()");
+
+
+
 
 
         System.out.println("Hello world!");
