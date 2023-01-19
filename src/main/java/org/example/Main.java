@@ -136,7 +136,8 @@ public class Main {
                 System.out.println("Okinuo expection drugi");
             }
         }while (true);
-        js.executeScript("location.reload()");
+        WebElement continueButtonAfterDelete = driver.findElement(By.xpath("//*[@id=\"form\"]/div/div/div/div/a"));
+        continueButtonAfterDelete.click();
 
 
 
