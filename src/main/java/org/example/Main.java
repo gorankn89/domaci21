@@ -50,13 +50,18 @@ public class Main {
         WebElement email = driver.findElement(By.xpath("//*[@id=\"form\"]/div/div/div[3]/div/form/input[3]"));
         WebElement signupButton = driver.findElement(By.xpath("//*[@id=\"form\"]/div/div/div[3]/div/form/button"));
 
-        email.sendKeys(faker.internet().emailAddress());
-        name.sendKeys(faker.name().fullName());
+        final String fakeEmail = faker.internet().emailAddress();
+        email.sendKeys(fakeEmail);
+        final String fakeFirstName = faker.name().firstName();
+        final String fakeLastName = faker.name().lastName();
+        name.sendKeys(fakeFirstName + " " + fakeLastName);
         signupButton.submit();
 
         //Selektovanje elemenata za treci unos
         WebElement passwordF = driver.findElement(By.id("password"));
+        //Unos Sifre
         passwordF.sendKeys("NajjacaSifraIkad");
+        // Selektovanje Elemenata za Selektovanje Datuma rodjenja i selektovanje Teksta u njima
         WebElement selectDay = driver.findElement(By.id("days"));
         Select selectingDay = new Select(selectDay);
         selectingDay.selectByVisibleText("15");
@@ -66,11 +71,36 @@ public class Main {
         WebElement selectYear = driver.findElement(By.id("years"));
         Select selectingYear = new Select(selectYear);
         selectingYear.selectByVisibleText("1987");
-
-
-
-
-
+        //Selektovanje Chekboxsova za promocije
+        WebElement newsLetter = driver.findElement(By.id("newsletter"));
+        newsLetter.click();
+        WebElement specialOffers = driver.findElement(By.id("optin"));
+        specialOffers.click();
+        //Selektovanje polja za unos imena i unos imena
+        WebElement nameField = driver.findElement(By.id("first_name"));
+        nameField.sendKeys(fakeFirstName);
+        //Selektovanje polja za unos prezimena i unos prezimena
+        WebElement lastNameField = driver.findElement(By.id("last_name"));
+        lastNameField.sendKeys(fakeLastName);
+        //Selektovanje polja za unos adrese i unos adrese
+        WebElement address1 = driver.findElement(By.id("address1"));
+        address1.sendKeys(faker.address().fullAddress());
+        //Selektovanje polja za izbor drzave i izbor drzave
+        WebElement country = driver.findElement(By.id("country"));
+        Select selectingCountry = new Select(country);
+        selectingCountry.selectByVisibleText("Canada");
+        //Selektovanje polja za unos adrese i unos adrese
+        WebElement state = driver.findElement(By.id("state"));
+        state.sendKeys("Alberta");
+        //Selektovanje polja za unos koda za postu i unos  koda za postu
+        WebElement zipcode = driver.findElement(By.id("zipcode"));
+        zipcode.sendKeys("T0A - T9X");
+        //Selektovanje polja za unos koda za mobile_number i unos  mobile_number-a
+        WebElement mobile_number = driver.findElement(By.id("mobile_number"));
+        mobile_number.sendKeys("+12505550199");
+        //Selektovanje dugmeta "Create Account" i klik na njega putem submit stanja
+        WebElement submitButton = driver.findElement(By.xpath("//*[@id=\"form\"]/div/div/div/div[1]/form/button"));
+        submitButton.submit();
 
 
         System.out.println("Hello world!");
@@ -78,4 +108,6 @@ public class Main {
         driver.close();
         driver.quit();
     }
+
+
 }
